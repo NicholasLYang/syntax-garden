@@ -1,0 +1,171 @@
+# Functions
+
+Functions are ways of creating reusable pieces of code.
+
+## Table of Contents
+
+## Named declarations
+Most commonly, functions are declared as a statement with name and parameters.
+
+C function declarations start with the return type, the function name, and then the parameters and body:
+
+**C**
+
+```c
+void create_user(int id) {
+  ...
+}
+```
+
+Most languages today use a keyword to indicate a function declaration:
+
+**Python**
+
+```python
+def create_user(id):
+  ...
+```
+
+**Rust**
+
+```rust
+fn create_user(id: i32) {
+ ....
+}
+```
+
+There's a few reasons a keyword is preferrable. They can be grepped for quite easily, so it's easier to find function declarations. Also, the C style has an ambiguity where `int foo` could be the start of a variable assignment, i.e. `int foo = 10`, or it could be a function declaration `int foo()`.
+
+## Anonymous functions
+
+Functions can also be declared in an anonymous manner, i.e. an expression without a bound name that evaluates to a first class function value. 
+
+**JavaScript**
+
+```javascript
+(a) => {
+  console.log(a);
+  return a + 1;
+}
+```
+
+**Rust**
+
+```rust
+|a| a + 1
+```
+### Expression body shorthand
+
+One common convenience for anonymous functions is letting the body be either a single expression or a normal statement block. When the body is an expression, the function returns that value. So in JavaScript, instead of writing:
+
+```javascript
+(a, b) => {
+  return a + b
+}
+```
+
+You can write:
+
+```javascript
+(a, b) => a + b
+```
+
+### Currying
+
+Another nice effect of anonymous function syntax and the expression body shorthand is that it facilitates easy function currying. For example:
+
+**JavaScript**
+
+```javascript
+(a) => (b) => a + b
+```
+
+### Optional names
+
+In JavaScript, the regular `function` declaration form can be used as an anonymous function, as the name part is optional:
+
+```javascript
+foo.then(function (result) {
+  ...
+})
+```
+
+## Function calls
+
+Functions are often called by providing the function name, then comma delimited arguments surrounded in parentheses:
+
+**JavaScript**
+
+```javascript
+createUser(id, name, username)
+```
+
+In some languages the parentheses are omitted or optional:
+
+**Ruby**
+
+```ruby
+create_user id, name, username
+```
+
+### Space delimited function calls
+
+In others, the arguments are delimited by spaces:
+
+**OCaml**
+
+```ocaml
+create_user id name username
+```
+
+Space delimited function calls work well for languages that curry functions by default, i.e. if a function takes in two parameters and is called with only one, it returns another function that takes in the second parameter. By removing parentheses, the distinction is elimited between calling a function with two parameters vs calling a function and then calling its return value:
+
+**JavaScript**
+
+```javascript
+f(a)(b)
+```
+
+**OCaml**
+
+```ocaml
+f a b
+```
+
+Another side effect of this style is that functions are often though of almost as operators. This shows up in [Haskell tutorials](https://learnyouahaskell.github.io/higher-order-functions.html#curried-functions), where functions are described as "left-associative".
+
+Parentheses are only used when a different order of precedence is needed, similar to how parentheses can be used to do an addition at a higher precedence than a multiplication:
+
+```ocaml
+save_user (create_user id name username)
+```
+
+Indeed, Haskell has the `$` and `.` operators which can be used in a similar way to adjust precedence.
+
+Another way of thinking about this style of function application is as a Lisp with the outer parentheses removed.
+
+```lisp
+(save_user (create_user id name username))
+```
+
+### Named arguments
+
+Some languages have named arguments:
+
+```ocaml
+create_user ~id ~name ~username
+```
+
+```python
+create_user(id=1, name="Alex", username="alex")
+```
+
+These are convenient for cases where multiple arguments of the same type are
+being passed in, i.e. the `name` and `username` parameters are both strings, but
+by naming them, it's less likely that the caller will accidentally swap them.
+
+In OCaml, there are optional named arguments which can be passed optionally with a `?`:
+
+```ocaml
+create_user ?id ~name ~username
+```

@@ -1,0 +1,114 @@
+
+# Comments
+Comments indicate to the parser that the following text is to be ignored, at least for the programming language's execution.
+
+## Table of Contents
+
+## Delimited comments
+Comments that use start and end delimiters to indicate the commented out
+region.
+
+**OCaml**
+
+```ocaml
+(* this is a comment *)
+```
+
+**C**
+
+```c
+/* this is also a comment */
+```
+
+### Nesting
+
+Languages like OCaml allow for nested comments, i.e. if a comment block contains another comment block, then the end delimiter for that nested block does not close the outer comment block
+
+**OCaml**
+
+```ocaml
+(* This is a nested comment: (* ... *) *)
+```
+
+In other languages, like C, comments are not nested:
+
+**C**
+
+```c
+/* This is not a nested comment: /* .. */
+```
+
+This is helpful when commenting out a region of code that has comments already. For instance, for this block of code:
+
+**OCaml**
+
+```ocaml
+(* [f] is applied to every element in the list *)
+let map ~f list =
+  ...
+;;
+```
+
+If we try to comment this out, by surrounding the code and comment in `(*` and `*)`, this will work
+
+**OCaml**
+
+```ocaml
+(*
+(* [f] is applied to every element in the list *)
+let map ~f list =
+  ...
+;;
+*)
+```
+
+Whereas in C, this will not work, since the first `*/` will close the comment
+
+```c
+/* 
+/* This function is idempotent */
+void create_user(int id)
+*/
+```
+
+## Line comments
+
+Comments that have a start delimiter and terminate at the end of the line, i.e. at the next newline or end of the file.
+
+**C**
+
+```c
+// this is a line comment
+```
+
+**Python**
+
+```python
+# this is also a line comment
+```
+
+## Documentation comments
+
+Comments can contain syntax for third party tools to parse into generated documentation.
+
+**Rust**
+````rust
+/// Creates a person with the given name.
+///
+/// # Examples
+///
+/// ```
+/// // You can have rust code between fences inside the comments
+/// // If you pass --test to `rustdoc`, it will even test it for you!
+/// use doc::Person;
+/// let person = Person::new("name");
+/// ```
+````
+**OCaml**
+```ocaml
+(** [f] is applied to every element in the list *)
+```
+
+With Rust, it's notable that these comments can themselves contain code snippets that will be displayed and even executed as tests. Therefore, it's common for editors to syntax highlight and semantically analyze these embedded code snippets.
+
+Also, it's worth noting that the comments have an explicit extra character to indicate that they are documentation related; in Rust this is the extra `/` added to the regular `//` comment syntax, and in OCaml it's the extra `*`. These have no semantic effect, but are instead to indicate to the documentation tool that this comment is to be parsed.
