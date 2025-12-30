@@ -1,0 +1,42 @@
+# Number literals
+
+Number literals are used to create numeric types, such as float or integer. 
+
+## Separators
+
+Number literals can contain an `_` character that has no meaning, but can be used to separate digits into chunks, similar to how a comma or period is used in writing, e.g. "3,000,000".
+
+**Ruby**
+
+```ruby
+one_million = 1_000_000
+```
+
+**JavaScript**
+
+```javascript
+2_000_000
+```
+
+## Bases
+
+Numbers can be defined in bases other than decimal, such as hexadecimal (base 16), octal (base 8), or binary (base 2). This can be useful for cases where the constant is more meaningful in that base, such as a bitmask for binary, or a git commit for hexadecimal. These literal forms are usually a `0` followed by a character for the base, such as `b` for binary, or `x` for hexadecimal.
+
+**Rust**
+
+```rust
+0xdeadbeef
+0b011
+```
+
+### Octal literals in JavaScript
+
+In JavaScript, octal literals originally were any number with a leading `0` (with `0` being the same in decimal and octal). This lead to unexpected behavior, since these numbers were easy to mistake as decimal values:
+
+**JavaScript**
+
+```javascript
+010
+```
+
+JavaScript has since deprecated these literals in strict mode, and recommends the more common `0o` prefix for octal literals.

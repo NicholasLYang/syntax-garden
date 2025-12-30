@@ -9,13 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LiteralsRouteImport } from './routes/literals'
 import { Route as FunctionsRouteImport } from './routes/functions'
 import { Route as CommentsRouteImport } from './routes/comments'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LiteralsIndexRouteImport } from './routes/literals/index'
 import { Route as FunctionsIndexRouteImport } from './routes/functions/index'
+import { Route as LiteralsNumbersRouteImport } from './routes/literals/numbers'
 import { Route as FunctionsDeclarationsRouteImport } from './routes/functions/declarations'
 import { Route as FunctionsCallsRouteImport } from './routes/functions/calls'
 
+const LiteralsRoute = LiteralsRouteImport.update({
+  id: '/literals',
+  path: '/literals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FunctionsRoute = FunctionsRouteImport.update({
   id: '/functions',
   path: '/functions',
@@ -31,10 +39,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LiteralsIndexRoute = LiteralsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LiteralsRoute,
+} as any)
 const FunctionsIndexRoute = FunctionsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => FunctionsRoute,
+} as any)
+const LiteralsNumbersRoute = LiteralsNumbersRouteImport.update({
+  id: '/numbers',
+  path: '/numbers',
+  getParentRoute: () => LiteralsRoute,
 } as any)
 const FunctionsDeclarationsRoute = FunctionsDeclarationsRouteImport.update({
   id: '/declarations',
@@ -51,25 +69,33 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comments': typeof CommentsRoute
   '/functions': typeof FunctionsRouteWithChildren
+  '/literals': typeof LiteralsRouteWithChildren
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
+  '/literals/numbers': typeof LiteralsNumbersRoute
   '/functions/': typeof FunctionsIndexRoute
+  '/literals/': typeof LiteralsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comments': typeof CommentsRoute
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
+  '/literals/numbers': typeof LiteralsNumbersRoute
   '/functions': typeof FunctionsIndexRoute
+  '/literals': typeof LiteralsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comments': typeof CommentsRoute
   '/functions': typeof FunctionsRouteWithChildren
+  '/literals': typeof LiteralsRouteWithChildren
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
+  '/literals/numbers': typeof LiteralsNumbersRoute
   '/functions/': typeof FunctionsIndexRoute
+  '/literals/': typeof LiteralsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -77,34 +103,50 @@ export interface FileRouteTypes {
     | '/'
     | '/comments'
     | '/functions'
+    | '/literals'
     | '/functions/calls'
     | '/functions/declarations'
+    | '/literals/numbers'
     | '/functions/'
+    | '/literals/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/comments'
     | '/functions/calls'
     | '/functions/declarations'
+    | '/literals/numbers'
     | '/functions'
+    | '/literals'
   id:
     | '__root__'
     | '/'
     | '/comments'
     | '/functions'
+    | '/literals'
     | '/functions/calls'
     | '/functions/declarations'
+    | '/literals/numbers'
     | '/functions/'
+    | '/literals/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CommentsRoute: typeof CommentsRoute
   FunctionsRoute: typeof FunctionsRouteWithChildren
+  LiteralsRoute: typeof LiteralsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/literals': {
+      id: '/literals'
+      path: '/literals'
+      fullPath: '/literals'
+      preLoaderRoute: typeof LiteralsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/functions': {
       id: '/functions'
       path: '/functions'
@@ -126,12 +168,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/literals/': {
+      id: '/literals/'
+      path: '/'
+      fullPath: '/literals/'
+      preLoaderRoute: typeof LiteralsIndexRouteImport
+      parentRoute: typeof LiteralsRoute
+    }
     '/functions/': {
       id: '/functions/'
       path: '/'
       fullPath: '/functions/'
       preLoaderRoute: typeof FunctionsIndexRouteImport
       parentRoute: typeof FunctionsRoute
+    }
+    '/literals/numbers': {
+      id: '/literals/numbers'
+      path: '/numbers'
+      fullPath: '/literals/numbers'
+      preLoaderRoute: typeof LiteralsNumbersRouteImport
+      parentRoute: typeof LiteralsRoute
     }
     '/functions/declarations': {
       id: '/functions/declarations'
@@ -166,10 +222,25 @@ const FunctionsRouteWithChildren = FunctionsRoute._addFileChildren(
   FunctionsRouteChildren,
 )
 
+interface LiteralsRouteChildren {
+  LiteralsNumbersRoute: typeof LiteralsNumbersRoute
+  LiteralsIndexRoute: typeof LiteralsIndexRoute
+}
+
+const LiteralsRouteChildren: LiteralsRouteChildren = {
+  LiteralsNumbersRoute: LiteralsNumbersRoute,
+  LiteralsIndexRoute: LiteralsIndexRoute,
+}
+
+const LiteralsRouteWithChildren = LiteralsRoute._addFileChildren(
+  LiteralsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CommentsRoute: CommentsRoute,
   FunctionsRoute: FunctionsRouteWithChildren,
+  LiteralsRoute: LiteralsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
