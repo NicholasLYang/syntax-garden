@@ -15,7 +15,9 @@ function RootComponent() {
   return (
     <React.Fragment>
       {location.pathname !== "/" && <Link to="..">Home</Link>}
-      <Outlet />
+      <div className="sm:max-w-2xl max-w-xs">
+        <Outlet />
+      </div>
     </React.Fragment>
   );
 }

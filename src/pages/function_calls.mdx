@@ -1,0 +1,134 @@
+# Function calls
+
+Functions are often called by providing the function name, then comma delimited arguments surrounded in parentheses:
+
+**JavaScript**
+
+```javascript
+createUser(id, name, username)
+```
+
+In some languages the parentheses are omitted or optional:
+
+**Ruby**
+
+```ruby
+create_user id, name, username
+```
+
+## Space delimited function calls
+
+In others, the arguments are delimited by spaces:
+
+**OCaml**
+
+```ocaml
+create_user id name username
+```
+
+Space delimited function calls work well for languages that curry functions by default, i.e. if a function takes in two parameters and is called with only one, it returns another function that takes in the second parameter. By removing parentheses, the distinction is elimited between calling a function with two parameters vs calling a function and then calling its return value:
+
+**JavaScript**
+
+```javascript
+f(a)(b)
+```
+
+**OCaml**
+
+```ocaml
+f a b
+```
+
+Another side effect of this style is that functions are often though of almost as operators. This shows up in [Haskell tutorials](https://learnyouahaskell.github.io/higher-order-functions.html#curried-functions), where functions are described as "left-associative".
+
+Parentheses are only used when a different order of precedence is needed, similar to how parentheses can be used to do an addition at a higher precedence than a multiplication:
+
+**OCaml**
+
+```ocaml
+save_user (create_user id name username)
+```
+
+Haskell has the `$` and `.` operators which can be used in a similar way to adjust precedence:
+
+**Haskell**
+
+```haskell
+save_user $ create_user id name username 
+```
+
+```
+reverse (take 5 (sort xs))
+reverse . take 5 . sort $ xs
+```
+
+Another way of thinking about this style of function application is as a Lisp with the outer parentheses removed.
+
+**Lisp**
+
+```lisp
+(save_user (create_user id name username))
+```
+
+## Named arguments
+
+Some languages have named arguments:
+
+**OCaml**
+
+```ocaml
+create_user ~id ~name ~username
+```
+
+**Python**
+
+```python
+create_user(id=1, name="Alex", username="alex")
+```
+
+These are convenient for cases where multiple arguments of the same type are
+being passed in, i.e. the `name` and `username` parameters are both strings, but
+by naming them, it's less likely that the caller will accidentally swap them.
+
+In OCaml, there are optional named arguments which can be passed optionally with a `?`:
+
+**OCaml**
+
+```ocaml
+create_user ?id ~name ~username
+```
+
+## Type annotations
+
+In some typed languages, function calls may need to specify a type parameter. This is often done 
+with a form of generic syntax:
+
+**Rust**
+
+```rust
+db.create::<User>(user);
+```
+
+It's worth asking why this syntax requires the `::` prefix. Why not use the simpler,
+and potentially more obvious form:
+
+```
+db.create<User>(user)
+```
+
+This is because the `<` brackets are also valid operators, and therefore this expression can be parsed as:
+
+```
+db.create < User > (user)
+```
+
+In theory one could restrict the lexical syntax such that variables can only be assigned to lowercase names, and parse this syntax with a sufficiently smart compiler. But it'd come it at the cost of a more difficult implementation and a more restrictive syntax.
+
+Notably, TypeScript does allow for this syntax:
+
+```typescript
+create<User>(user)
+```
+
+But this requires some speculative parsing and checking if the elements in between `<` and `>` are valid types.

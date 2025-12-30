@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as FunctionsRouteImport } from './routes/functions'
 import { Route as CommentsRouteImport } from './routes/comments'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FunctionsIndexRouteImport } from './routes/functions/index'
+import { Route as FunctionsDeclarationsRouteImport } from './routes/functions/declarations'
+import { Route as FunctionsCallsRouteImport } from './routes/functions/calls'
 
 const FunctionsRoute = FunctionsRouteImport.update({
   id: '/functions',
@@ -28,35 +31,76 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FunctionsIndexRoute = FunctionsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FunctionsRoute,
+} as any)
+const FunctionsDeclarationsRoute = FunctionsDeclarationsRouteImport.update({
+  id: '/declarations',
+  path: '/declarations',
+  getParentRoute: () => FunctionsRoute,
+} as any)
+const FunctionsCallsRoute = FunctionsCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => FunctionsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comments': typeof CommentsRoute
-  '/functions': typeof FunctionsRoute
+  '/functions': typeof FunctionsRouteWithChildren
+  '/functions/calls': typeof FunctionsCallsRoute
+  '/functions/declarations': typeof FunctionsDeclarationsRoute
+  '/functions/': typeof FunctionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comments': typeof CommentsRoute
-  '/functions': typeof FunctionsRoute
+  '/functions/calls': typeof FunctionsCallsRoute
+  '/functions/declarations': typeof FunctionsDeclarationsRoute
+  '/functions': typeof FunctionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comments': typeof CommentsRoute
-  '/functions': typeof FunctionsRoute
+  '/functions': typeof FunctionsRouteWithChildren
+  '/functions/calls': typeof FunctionsCallsRoute
+  '/functions/declarations': typeof FunctionsDeclarationsRoute
+  '/functions/': typeof FunctionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/comments' | '/functions'
+  fullPaths:
+    | '/'
+    | '/comments'
+    | '/functions'
+    | '/functions/calls'
+    | '/functions/declarations'
+    | '/functions/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comments' | '/functions'
-  id: '__root__' | '/' | '/comments' | '/functions'
+  to:
+    | '/'
+    | '/comments'
+    | '/functions/calls'
+    | '/functions/declarations'
+    | '/functions'
+  id:
+    | '__root__'
+    | '/'
+    | '/comments'
+    | '/functions'
+    | '/functions/calls'
+    | '/functions/declarations'
+    | '/functions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CommentsRoute: typeof CommentsRoute
-  FunctionsRoute: typeof FunctionsRoute
+  FunctionsRoute: typeof FunctionsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -82,13 +126,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/functions/': {
+      id: '/functions/'
+      path: '/'
+      fullPath: '/functions/'
+      preLoaderRoute: typeof FunctionsIndexRouteImport
+      parentRoute: typeof FunctionsRoute
+    }
+    '/functions/declarations': {
+      id: '/functions/declarations'
+      path: '/declarations'
+      fullPath: '/functions/declarations'
+      preLoaderRoute: typeof FunctionsDeclarationsRouteImport
+      parentRoute: typeof FunctionsRoute
+    }
+    '/functions/calls': {
+      id: '/functions/calls'
+      path: '/calls'
+      fullPath: '/functions/calls'
+      preLoaderRoute: typeof FunctionsCallsRouteImport
+      parentRoute: typeof FunctionsRoute
+    }
   }
 }
+
+interface FunctionsRouteChildren {
+  FunctionsCallsRoute: typeof FunctionsCallsRoute
+  FunctionsDeclarationsRoute: typeof FunctionsDeclarationsRoute
+  FunctionsIndexRoute: typeof FunctionsIndexRoute
+}
+
+const FunctionsRouteChildren: FunctionsRouteChildren = {
+  FunctionsCallsRoute: FunctionsCallsRoute,
+  FunctionsDeclarationsRoute: FunctionsDeclarationsRoute,
+  FunctionsIndexRoute: FunctionsIndexRoute,
+}
+
+const FunctionsRouteWithChildren = FunctionsRoute._addFileChildren(
+  FunctionsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CommentsRoute: CommentsRoute,
-  FunctionsRoute: FunctionsRoute,
+  FunctionsRoute: FunctionsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

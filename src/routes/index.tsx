@@ -1,6 +1,6 @@
 import "./index.css";
 import { createFileRoute } from "@tanstack/react-router";
-import Index from "./index.mdx";
+import Index from "../pages/index.mdx";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,

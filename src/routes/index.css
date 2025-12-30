@@ -2,7 +2,7 @@
 
 @layer base {
   h1 {
-    font-size: var(--text-2xl);
+    font-size: var(--text-lg);
     margin-top: 2rem;
     margin-bottom: 1rem;
   }
@@ -23,6 +23,9 @@
   pre {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    background-color: var(--color-slate-100);
+    padding: 16px;
+    overflow-x: scroll;
   }
   ul {
     margin-top: 0.5rem;
@@ -33,6 +36,20 @@
   li {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
+  }
+
+  code {
+    font-size: 12px;
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: var(--text-2xl);
+    }
+
+    code {
+      font-size: 12px;
+    }
   }
 }
 
