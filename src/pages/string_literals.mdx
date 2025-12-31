@@ -1,0 +1,37 @@
+# String literals
+
+String literals are used to create string values.
+
+## String interpolation
+
+Strings are often constructed from other values. This construction can be done with a string concatenation operator, but this is often verbose and difficult to read.
+
+**JavaScript**
+
+```javascript
+"hello " + name + ", it's nice to meet you"
+```
+
+Instead, string interpolation allows string literals to embed values with a special syntax, such as `${}` or `#{}`, creating more legible strings
+
+**JavaScript**
+
+```javascript
+`hello ${name}, it's nice to meet you`
+```
+
+**Ruby**
+
+```ruby
+"goodbye #{name}, have a nice trip"
+```
+
+In most cases, the embed syntax is not actually restricted to variables. They can contain arbitrary expressions:
+
+**JavaScript**
+
+```javascript
+`hello, ${getUser().name}`
+```
+
+This is ergonomic, but it creates some challenges for parsing and tokenization.
