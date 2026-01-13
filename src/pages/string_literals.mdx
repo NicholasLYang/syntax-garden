@@ -34,4 +34,65 @@ In most cases, the embed syntax is not actually restricted to variables. They ca
 `hello, ${getUser().name}`
 ```
 
-This is ergonomic, but it creates some challenges for parsing and tokenization.
+This is ergonomic, but it creates some challenges for parsing and tokenization, since a string literal now cannot be represented as a single token. Instead, the lexer either needs to have [different states](https://denisdefreyne.com/articles/2022-modal-lexer/) for lexing strings vs expressions, or it needs to post-process the string interpolations. 
+
+## Formatting strings
+
+A common alternative to string interpolation is a formatting string.
+
+**C**
+
+```c
+printf("hello %s\n", user);
+```
+
+**Rust**
+```rust
+println!("hello {}", user);
+```
+
+The string literal has placeholders---in this case the `%s` or `{}`---that are filled in with the respective values. This avoids the implementation issues associated with string interpolation, while still being relatively ergonomic. It also allows for custom formatting for the value. For instance, you can specify that a value be printed in its debug format using `{:?}` in Rust, or specify the exact number of digits to print for a floating point using `%.6f` in C.
+
+In Rust, the format string can even reference variables in scope, which provides a closer experience to string interpolation, while still avoiding the implementation complexity of arbitrary expressions in the interpolation:
+
+**Rust**
+
+```rust
+println!("hello {user}");
+```
+
+## Escaping
+
+Escaping is used to represent characters that cannot be put into a string literal. The classic example is the double quote character, `"`. Since strings are often delimited by double quotes, the double quote character cannot be in the string. To solve this, we prefix the quote character with a backslash, `\`.
+
+**Rust**
+
+```rust
+"He said \"I like pizza\""
+```
+
+The backslashes will not be in the actual string value. However, since the backslash now has this effect, we need a way to write the backslash character in a string. To do this, we prefix the backslash with another backslash:
+
+**Rust**
+
+```rust
+"To escape strings, use a \\ character"
+```
+
+### Raw strings
+
+In cases where escaping can get too tedious, such as when strings contain lots of `"`, languages have started to provide a raw string literal.
+
+**Rust**
+
+```rust
+r#"this is a raw string that can contain quotes ("), backslashes (\), etc. "#
+```
+
+These strings produce string values with exactly the characters represented. To avoid having escapes, the raw string is prefixed by an `r` and a variable number of `#` characters. The only way for the raw string to be terminated, is by a quote followed by the same quantity of `#` characters. However, this means that [raw string literals are context sensitive](https://rust.googlesource.com/rust-lang/rust/+/refs/tags/1.35.0/src/grammar/raw-string-literal-ambiguity.md).
+
+## Sources
+
+- https://peps.python.org/pep-0701/
+- https://denisdefreyne.com/articles/2022-modal-lexer/
+- https://rust.googlesource.com/rust-lang/rust/+/refs/tags/1.35.0/src/grammar/raw-string-literal-ambiguity.md
