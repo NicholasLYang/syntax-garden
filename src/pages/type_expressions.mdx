@@ -1,0 +1,87 @@
+# Type expressions
+
+Type expressions are ways to reference a type in code, whether that's in a type declaration, a variable declaration, an assertion, etc.
+
+**TypeScript**
+
+```typescript
+number
+string[]
+keyof Student
+```
+
+**Rust**
+
+```rust
+Vec<String>
+T
+i32
+```
+
+## Type arguments
+
+Type systems often have types that take other types. For instance, an array type may take in a type for its item. These are often expressed in similar forms to a function call, except with a different delimiter:
+
+**Rust**
+
+```rust
+Vec<String>
+```
+
+Some types can take in multiple types as arguments:
+
+**Rust**
+
+```rust
+HashMap<String, User>
+```
+
+Notably, this is often distinct from taking in a tuple of types, which is indicated with parentheses:
+
+**Rust**
+
+```rust
+Vec<(String, User)>
+```
+
+### `<` Ambiguity
+
+One ambiguity of using `<` and `>` to delimit type arguments is that type expressions can be confused for comparison expressions. Often this is not an issue, since type expressions rarely overlap with comparison expressions in their syntactical location. But for particular cases, such as [function calls](./functions/calls#type-anotations), this ambiguity can cause issues.
+
+### Syntactic sugar
+
+Some languages have syntactic sugar for common types, such as arrays or options. These often take the form of a postfix operator, `[]` for arrays, `?` for options.  Some languages like Haskell nest the type parameter in the `[]`, e.g. `[Int]`.
+
+**TypeScript**
+
+```typescript
+number[]
+```
+
+**Kotlin**
+
+```kotlin
+Student?
+```
+
+The benefits of this sugar is that it becomes easy to declare some nested types, such as an array of arrays. For instance, `Vec<Vec<Student>>` can become `Student[][]`. However, this syntax has limits in its expressiveness. It's fairly uncommon to be able to have multiple `?` suffixes to indicate a nested option type. In other words, `Option<Option<Student>>` is almost never able to be written as `Student??`. This isn't a technical limitation per se, but instead a limitation of legibility, since `?` obscures that an optional type is indeed just a sum type.
+
+<!-- NOTE: make the previous explanation better -->
+
+There is also potential risk in selecting a specific type with syntactic sugar. If that type loses popularity or issues are discovered in its implementation, then the sugar can lead new users astray.
+
+### Ordering
+
+In OCaml, a type is preceded by its arguments. So a `int list` is a list of integers. This is contrary to other languages where the type arguments follow the type. This is beneficial in a common case where a generic type that takes a single parameter contains another generic type that takes a single parameter and so on, because it avoids delimiters. As an example, it's fairly common in Rust to have the following type: `Arc<Mutex<Vec<Student>>>`. In OCaml, we could express this as a `Student.t Vec.t Mutex.t Arc.t` without any delimiters.
+
+## Operators
+
+At first glance, type expressions can seem like a fairly constrained language of an identifier, followed by some optional type parameters. However, many languages have a rather sophisticated grammars for their expressive type systems. Often these take the shape of operators. Like operators in expressions, type operators combine type expressions into new types.
+
+In TypeScript, there is the `|` operator which indicates that the value is either one type or another type.
+
+**TypeScript**
+
+```typescript
+number | string
+```

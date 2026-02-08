@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LiteralsRouteImport } from './routes/literals'
 import { Route as FunctionsRouteImport } from './routes/functions'
 import { Route as CommentsRouteImport } from './routes/comments'
+import { Route as BlockExpressionsRouteImport } from './routes/block-expressions'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LiteralsIndexRouteImport } from './routes/literals/index'
 import { Route as FunctionsIndexRouteImport } from './routes/functions/index'
@@ -32,6 +33,11 @@ const FunctionsRoute = FunctionsRouteImport.update({
 const CommentsRoute = CommentsRouteImport.update({
   id: '/comments',
   path: '/comments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlockExpressionsRoute = BlockExpressionsRouteImport.update({
+  id: '/block-expressions',
+  path: '/block-expressions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -67,6 +73,7 @@ const FunctionsCallsRoute = FunctionsCallsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/block-expressions': typeof BlockExpressionsRoute
   '/comments': typeof CommentsRoute
   '/functions': typeof FunctionsRouteWithChildren
   '/literals': typeof LiteralsRouteWithChildren
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/block-expressions': typeof BlockExpressionsRoute
   '/comments': typeof CommentsRoute
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
@@ -88,6 +96,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/block-expressions': typeof BlockExpressionsRoute
   '/comments': typeof CommentsRoute
   '/functions': typeof FunctionsRouteWithChildren
   '/literals': typeof LiteralsRouteWithChildren
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/block-expressions'
     | '/comments'
     | '/functions'
     | '/literals'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/block-expressions'
     | '/comments'
     | '/functions/calls'
     | '/functions/declarations'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/block-expressions'
     | '/comments'
     | '/functions'
     | '/literals'
@@ -133,6 +145,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlockExpressionsRoute: typeof BlockExpressionsRoute
   CommentsRoute: typeof CommentsRoute
   FunctionsRoute: typeof FunctionsRouteWithChildren
   LiteralsRoute: typeof LiteralsRouteWithChildren
@@ -159,6 +172,13 @@ declare module '@tanstack/react-router' {
       path: '/comments'
       fullPath: '/comments'
       preLoaderRoute: typeof CommentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/block-expressions': {
+      id: '/block-expressions'
+      path: '/block-expressions'
+      fullPath: '/block-expressions'
+      preLoaderRoute: typeof BlockExpressionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -238,6 +258,7 @@ const LiteralsRouteWithChildren = LiteralsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlockExpressionsRoute: BlockExpressionsRoute,
   CommentsRoute: CommentsRoute,
   FunctionsRoute: FunctionsRouteWithChildren,
   LiteralsRoute: LiteralsRouteWithChildren,
