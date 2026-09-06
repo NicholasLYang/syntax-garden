@@ -4,8 +4,6 @@ In programming language syntax, syntactic forms are split into those that are ex
 
 As an example, let's take an `if` syntactic form. In Java and C, an `if` is a statement:
 
-**Java**
-
 ```java
 if (a.equals(b)) {
   message = "equal";
@@ -16,15 +14,11 @@ if (a.equals(b)) {
 
 Contrast this to OCaml, where `if` is an expression:
 
-**OCaml**
-
 ```ocaml
 let message = if a = b then "equal" else "not equal"
 ```
 
 Because `if` in OCaml is an expression, it can be assigned to `message` directly. This is both more concise, and also avoids having message be a mutable variable. Indeed, this is a sufficiently useful pattern that most imperative languages also include an expression based `if` in the form of a ternary operator `?`:
-
-**C**
 
 ```c
 char* message = a == b ? "equal" : "not equal"

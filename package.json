@@ -11,6 +11,7 @@
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
+    "@mdx-js/react": "^3.1.1",
     "@mdx-js/rollup": "^3.1.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-router": "^1.143.11",

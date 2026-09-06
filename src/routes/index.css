@@ -21,11 +21,23 @@
     margin-bottom: 0.5rem;
   }
   pre {
+    position: relative;
     margin-top: 1rem;
     margin-bottom: 1rem;
     background-color: var(--color-slate-100);
     padding: 16px;
     overflow-x: scroll;
+  }
+  pre .code-language {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 2px 8px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--color-slate-500);
+    background-color: var(--color-slate-200);
+    user-select: none;
   }
   ul {
     margin-top: 0.5rem;

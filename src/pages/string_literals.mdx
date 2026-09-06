@@ -6,29 +6,21 @@ String literals are used to create string values.
 
 Strings are often constructed from other values. This construction can be done with a string concatenation operator, but this is often verbose and difficult to read.
 
-**JavaScript**
-
 ```javascript
 "hello " + name + ", it's nice to meet you"
 ```
 
 Instead, string interpolation allows string literals to embed values with a special syntax, such as `${}` or `#{}`, creating more legible strings
 
-**JavaScript**
-
 ```javascript
 `hello ${name}, it's nice to meet you`
 ```
-
-**Ruby**
 
 ```ruby
 "goodbye #{name}, have a nice trip"
 ```
 
 In most cases, the embed syntax is not actually restricted to variables. They can contain arbitrary expressions:
-
-**JavaScript**
 
 ```javascript
 `hello, ${getUser().name}`
@@ -40,13 +32,10 @@ This is ergonomic, but it creates some challenges for parsing and tokenization, 
 
 A common alternative to string interpolation is a formatting string.
 
-**C**
-
 ```c
 printf("hello %s\n", user);
 ```
 
-**Rust**
 ```rust
 println!("hello {}", user);
 ```
@@ -54,8 +43,6 @@ println!("hello {}", user);
 The string literal has placeholders---in this case the `%s` or `{}`---that are filled in with the respective values. This avoids the implementation issues associated with string interpolation, while still being relatively ergonomic. It also allows for custom formatting for the value. For instance, you can specify that a value be printed in its debug format using `{:?}` in Rust, or specify the exact number of digits to print for a floating point using `%.6f` in C.
 
 In Rust, the format string can even reference variables in scope, which provides a closer experience to string interpolation, while still avoiding the implementation complexity of arbitrary expressions in the interpolation:
-
-**Rust**
 
 ```rust
 println!("hello {user}");
@@ -65,15 +52,11 @@ println!("hello {user}");
 
 Escaping is used to represent characters that cannot be put into a string literal. The classic example is the double quote character, `"`. Since strings are often delimited by double quotes, the double quote character cannot be in the string. To solve this, we prefix the quote character with a backslash, `\`.
 
-**Rust**
-
 ```rust
 "He said \"I like pizza\""
 ```
 
 The backslashes will not be in the actual string value. However, since the backslash now has this effect, we need a way to write the backslash character in a string. To do this, we prefix the backslash with another backslash:
-
-**Rust**
 
 ```rust
 "To escape strings, use a \\ character"
@@ -82,8 +65,6 @@ The backslashes will not be in the actual string value. However, since the backs
 ### Raw strings
 
 In cases where escaping can get too tedious, such as when strings contain lots of `"`, languages have started to provide a raw string literal.
-
-**Rust**
 
 ```rust
 r#"this is a raw string that can contain quotes ("), backslashes (\), etc. "#

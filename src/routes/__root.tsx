@@ -5,6 +5,10 @@ import {
   createRootRoute,
   useLocation,
 } from "@tanstack/react-router";
+import { MDXProvider } from "@mdx-js/react";
+import { CodeBlock } from "../components/CodeBlock";
+
+const mdxComponents = { pre: CodeBlock };
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -16,7 +20,9 @@ function RootComponent() {
     <React.Fragment>
       {location.pathname !== "/" && <Link to="..">Home</Link>}
       <div className="sm:max-w-2xl max-w-xs">
-        <Outlet />
+        <MDXProvider components={mdxComponents}>
+          <Outlet />
+        </MDXProvider>
       </div>
     </React.Fragment>
   );

@@ -2,15 +2,11 @@
 
 Type expressions are ways to reference a type in code, whether that's in a type declaration, a variable declaration, an assertion, etc.
 
-**TypeScript**
-
 ```typescript
 number
 string[]
 keyof Student
 ```
-
-**Rust**
 
 ```rust
 Vec<String>
@@ -22,23 +18,17 @@ i32
 
 Type systems often have types that take other types. For instance, an array type may take in a type for its item. These are often expressed in similar forms to a function call, except with a different delimiter:
 
-**Rust**
-
 ```rust
 Vec<String>
 ```
 
 Some types can take in multiple types as arguments:
 
-**Rust**
-
 ```rust
 HashMap<String, User>
 ```
 
 Notably, this is often distinct from taking in a tuple of types, which is indicated with parentheses:
-
-**Rust**
 
 ```rust
 Vec<(String, User)>
@@ -52,13 +42,9 @@ One ambiguity of using `<` and `>` to delimit type arguments is that type expres
 
 Some languages have syntactic sugar for common types, such as arrays or options. These often take the form of a postfix operator, `[]` for arrays, `?` for options.  Some languages like Haskell nest the type parameter in the `[]`, e.g. `[Int]`.
 
-**TypeScript**
-
 ```typescript
 number[]
 ```
-
-**Kotlin**
 
 ```kotlin
 Student?
@@ -79,8 +65,6 @@ In OCaml, a type is preceded by its arguments. So a `int list` is a list of inte
 At first glance, type expressions can seem like a fairly constrained language of an identifier, followed by some optional type parameters. However, many languages have a rather sophisticated grammars for their expressive type systems. Often these take the shape of operators. Like operators in expressions, type operators combine type expressions into new types.
 
 In TypeScript, there is the `|` operator which indicates that the value is either one type or another type.
-
-**TypeScript**
 
 ```typescript
 number | string

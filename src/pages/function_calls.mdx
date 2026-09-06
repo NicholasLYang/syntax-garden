@@ -2,7 +2,6 @@
 
 Functions are often called by providing the function name, then comma delimited arguments surrounded in parentheses:
 
-**JavaScript**
 
 ```javascript
 createUser(id, name, username)
@@ -10,7 +9,6 @@ createUser(id, name, username)
 
 In some languages the parentheses are omitted or optional:
 
-**Ruby**
 
 ```ruby
 create_user id, name, username
@@ -18,9 +16,7 @@ create_user id, name, username
 
 ## Space delimited function calls
 
-In others, the arguments are delimited by spaces:
-
-**OCaml**
+In other languages, the arguments are delimited by spaces:
 
 ```ocaml
 create_user id name username
@@ -28,13 +24,9 @@ create_user id name username
 
 Space delimited function calls work well for languages that curry functions by default, i.e. if a function takes in two parameters and is called with only one, it returns another function that takes in the second parameter. By removing parentheses, the distinction is elimited between calling a function with two parameters vs calling a function and then calling its return value:
 
-**JavaScript**
-
 ```javascript
 f(a)(b)
 ```
-
-**OCaml**
 
 ```ocaml
 f a b
@@ -44,15 +36,11 @@ Another side effect of this style is that functions are often though of almost a
 
 Parentheses are only used when a different order of precedence is needed, similar to how parentheses can be used to do an addition at a higher precedence than a multiplication:
 
-**OCaml**
-
 ```ocaml
 save_user (create_user id name username)
 ```
 
 Haskell has the `$` and `.` operators which can be used in a similar way to adjust precedence:
-
-**Haskell**
 
 ```haskell
 save_user $ create_user id name username 
@@ -65,8 +53,6 @@ reverse . take 5 . sort $ xs
 
 Another way of thinking about this style of function application is as a Lisp with the outer parentheses removed.
 
-**Lisp**
-
 ```lisp
 (save_user (create_user id name username))
 ```
@@ -75,13 +61,9 @@ Another way of thinking about this style of function application is as a Lisp wi
 
 Some languages have named arguments:
 
-**OCaml**
-
 ```ocaml
 create_user ~id ~name ~username
 ```
-
-**Python**
 
 ```python
 create_user(id=1, name="Alex", username="alex")
@@ -93,8 +75,6 @@ by naming them, it's less likely that the caller will accidentally swap them.
 
 In OCaml, there are optional named arguments which can be passed optionally with a `?`:
 
-**OCaml**
-
 ```ocaml
 create_user ?id ~name ~username
 ```
@@ -103,8 +83,6 @@ create_user ?id ~name ~username
 
 In some typed languages, function calls may need to specify a type parameter. This is often done 
 with a form of generic syntax:
-
-**Rust**
 
 ```rust
 db.create::<User>(user);

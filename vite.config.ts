@@ -12,7 +12,7 @@ export default defineConfig({
       target: "react",
       autoCodeSplitting: true,
     }),
-    mdx({ remarkPlugins: [remarkToc] }),
+    mdx({ remarkPlugins: [remarkToc], providerImportSource: "@mdx-js/react" }),
     tailwindcss(),
     react({
       babel: {
