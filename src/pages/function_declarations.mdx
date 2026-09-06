@@ -1,7 +1,7 @@
 # Function declarations 
 
 ## Named declarations
-Most commonly, functions are declared as a statement with name and parameters.
+Functions are often declared as a statement with name and parameters.
 
 C function declarations start with the return type, the function name, and then the parameters and body:
 
@@ -24,7 +24,7 @@ fn create_user(id: i32) {
 }
 ```
 
-There's a few reasons a keyword is preferrable. They can be grepped for quite easily, so it's easier to find function declarations. Also, the C style has an ambiguity where `int foo` could be the start of a variable assignment, i.e. `int foo = 10`, or it could be a function declaration `int foo()`.
+There's a few reasons a keyword is preferrable. They can be searched for quite easily, so it's easier to find function declarations. Also, the C style has an ambiguity where `int foo` could be the start of a variable assignment, i.e. `int foo = 10`, or it could be a function declaration `int foo()`.
 
 ## Anonymous functions
 

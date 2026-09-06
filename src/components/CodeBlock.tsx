@@ -1,4 +1,4 @@
-import { isValidElement, type ComponentProps, type ReactNode } from "react";
+import type { ComponentProps } from "react";
 
 const LANGUAGE_NAMES: Record<string, string> = {
   c: "C",
@@ -17,16 +17,12 @@ const LANGUAGE_NAMES: Record<string, string> = {
   ts: "TypeScript",
 };
 
-function languageFromChildren(children: ReactNode): string | undefined {
-  if (!isValidElement<{ className?: string }>(children)) return undefined;
-  const match = /\blanguage-([\w+#-]+)/.exec(children.props.className ?? "");
-  if (!match) return undefined;
-  const id = match[1].toLowerCase();
-  return LANGUAGE_NAMES[id] ?? id;
-}
+// rehype-pretty-code puts the fence's language on the <pre> as data-language.
+type PreProps = ComponentProps<"pre"> & { "data-language"?: string };
 
-export function CodeBlock({ children, ...props }: ComponentProps<"pre">) {
-  const language = languageFromChildren(children);
+export function CodeBlock({ children, ...props }: PreProps) {
+  const id = props["data-language"]?.toLowerCase();
+  const language = id && (LANGUAGE_NAMES[id] ?? id);
   return (
     <pre {...props}>
       {language && <span className="code-language">{language}</span>}

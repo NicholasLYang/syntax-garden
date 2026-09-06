@@ -18,7 +18,7 @@ function RootComponent() {
   const location = useLocation();
   return (
     <React.Fragment>
-      {location.pathname !== "/" && <Link to="..">Home</Link>}
+      {location.pathname !== "/" && <Link to="..">Back</Link>}
       <div className="sm:max-w-2xl max-w-xs">
         <MDXProvider components={mdxComponents}>
           <Outlet />

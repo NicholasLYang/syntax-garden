@@ -24,7 +24,7 @@
     position: relative;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    background-color: var(--color-slate-100);
+    background-color: var(--code-bg);
     padding: 16px;
     overflow-x: scroll;
   }
@@ -35,8 +35,8 @@
     padding: 2px 8px;
     font-family: var(--font-sans);
     font-size: 11px;
-    color: var(--color-slate-500);
-    background-color: var(--color-slate-200);
+    color: var(--code-language-fg);
+    background-color: var(--code-language-bg);
     user-select: none;
   }
   ul {
@@ -69,4 +69,38 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+/* Syntax highlighting (rehype-pretty-code + Shiki).
+   Shiki emits both palettes as --shiki-light / --shiki-dark on every token;
+   we pick one here so the page keeps a single set of markup. */
+:root {
+  --code-bg: var(--color-slate-800);
+  --code-language-fg: var(--color-slate-400);
+  --code-language-bg: var(--color-slate-700);
+}
+
+/* rehype-pretty-code sets `display: grid` on <code> so each line is a row;
+   without this, long lines are clipped instead of scrolling the <pre>. */
+pre code[data-theme*=" "] {
+  width: max-content;
+  min-width: 100%;
+}
+
+/* Only the token spans carry --shiki-*; the `inherit` fallback keeps the
+   line wrappers and untokenized text on the page's own text color. */
+pre code[data-theme*=" "] span {
+  color: var(--shiki-dark, inherit);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --code-bg: var(--color-slate-100);
+    --code-language-fg: var(--color-slate-500);
+    --code-language-bg: var(--color-slate-200);
+  }
+
+  pre code[data-theme*=" "] span {
+    color: var(--shiki-light, inherit);
+  }
 }

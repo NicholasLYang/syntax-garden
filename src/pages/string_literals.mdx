@@ -56,7 +56,7 @@ Escaping is used to represent characters that cannot be put into a string litera
 "He said \"I like pizza\""
 ```
 
-The backslashes will not be in the actual string value. However, since the backslash now has this effect, we need a way to write the backslash character in a string. To do this, we prefix the backslash with another backslash:
+The backslashes will not be in the actual string value. However, since the backslash now has this effect, we need a way to write the backslash character in a string. To do this we prefix the backslash with another backslash:
 
 ```rust
 "To escape strings, use a \\ character"
@@ -70,7 +70,7 @@ In cases where escaping can get too tedious, such as when strings contain lots o
 r#"this is a raw string that can contain quotes ("), backslashes (\), etc. "#
 ```
 
-These strings produce string values with exactly the characters represented. To avoid having escapes, the raw string is prefixed by an `r` and a variable number of `#` characters. The only way for the raw string to be terminated, is by a quote followed by the same quantity of `#` characters. However, this means that [raw string literals are context sensitive](https://rust.googlesource.com/rust-lang/rust/+/refs/tags/1.35.0/src/grammar/raw-string-literal-ambiguity.md).
+These strings produce string values with exactly the characters represented. To avoid having escapes, the raw string is prefixed by an `r` and a variable number of `#` characters. The only way for the raw string to be terminated, is by a quote followed by the same quantity of `#` characters. However, this does imply that [raw string literals are context sensitive](https://rust.googlesource.com/rust-lang/rust/+/refs/tags/1.35.0/src/grammar/raw-string-literal-ambiguity.md). This is likely just a theoretical concern, but still one to take into consideration.
 
 ## Sources
 

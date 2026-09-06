@@ -16,6 +16,7 @@ import { Route as BlockExpressionsRouteImport } from './routes/block-expressions
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LiteralsIndexRouteImport } from './routes/literals/index'
 import { Route as FunctionsIndexRouteImport } from './routes/functions/index'
+import { Route as LiteralsStringsRouteImport } from './routes/literals/strings'
 import { Route as LiteralsNumbersRouteImport } from './routes/literals/numbers'
 import { Route as FunctionsDeclarationsRouteImport } from './routes/functions/declarations'
 import { Route as FunctionsCallsRouteImport } from './routes/functions/calls'
@@ -55,6 +56,11 @@ const FunctionsIndexRoute = FunctionsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => FunctionsRoute,
 } as any)
+const LiteralsStringsRoute = LiteralsStringsRouteImport.update({
+  id: '/strings',
+  path: '/strings',
+  getParentRoute: () => LiteralsRoute,
+} as any)
 const LiteralsNumbersRoute = LiteralsNumbersRouteImport.update({
   id: '/numbers',
   path: '/numbers',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
   '/literals/numbers': typeof LiteralsNumbersRoute
+  '/literals/strings': typeof LiteralsStringsRoute
   '/functions/': typeof FunctionsIndexRoute
   '/literals/': typeof LiteralsIndexRoute
 }
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
   '/literals/numbers': typeof LiteralsNumbersRoute
+  '/literals/strings': typeof LiteralsStringsRoute
   '/functions': typeof FunctionsIndexRoute
   '/literals': typeof LiteralsIndexRoute
 }
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/functions/calls': typeof FunctionsCallsRoute
   '/functions/declarations': typeof FunctionsDeclarationsRoute
   '/literals/numbers': typeof LiteralsNumbersRoute
+  '/literals/strings': typeof LiteralsStringsRoute
   '/functions/': typeof FunctionsIndexRoute
   '/literals/': typeof LiteralsIndexRoute
 }
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/functions/calls'
     | '/functions/declarations'
     | '/literals/numbers'
+    | '/literals/strings'
     | '/functions/'
     | '/literals/'
   fileRoutesByTo: FileRoutesByTo
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/functions/calls'
     | '/functions/declarations'
     | '/literals/numbers'
+    | '/literals/strings'
     | '/functions'
     | '/literals'
   id:
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/functions/calls'
     | '/functions/declarations'
     | '/literals/numbers'
+    | '/literals/strings'
     | '/functions/'
     | '/literals/'
   fileRoutesById: FileRoutesById
@@ -202,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FunctionsIndexRouteImport
       parentRoute: typeof FunctionsRoute
     }
+    '/literals/strings': {
+      id: '/literals/strings'
+      path: '/strings'
+      fullPath: '/literals/strings'
+      preLoaderRoute: typeof LiteralsStringsRouteImport
+      parentRoute: typeof LiteralsRoute
+    }
     '/literals/numbers': {
       id: '/literals/numbers'
       path: '/numbers'
@@ -244,11 +263,13 @@ const FunctionsRouteWithChildren = FunctionsRoute._addFileChildren(
 
 interface LiteralsRouteChildren {
   LiteralsNumbersRoute: typeof LiteralsNumbersRoute
+  LiteralsStringsRoute: typeof LiteralsStringsRoute
   LiteralsIndexRoute: typeof LiteralsIndexRoute
 }
 
 const LiteralsRouteChildren: LiteralsRouteChildren = {
   LiteralsNumbersRoute: LiteralsNumbersRoute,
+  LiteralsStringsRoute: LiteralsStringsRoute,
   LiteralsIndexRoute: LiteralsIndexRoute,
 }
 

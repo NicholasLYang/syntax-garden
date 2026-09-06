@@ -1,6 +1,19 @@
 # Block Expressions
 
-In programming language syntax, syntactic forms are split into those that are expressions and those that are statements. Expressions evaluate into a value, while statements do not. As a general rule, imperative languages such as C, Java, C++, etc. have many statements, while functional languages such has Haskell, OCaml, or Lisp, have mostly expressions.
+In many programming languages, syntactic forms are split into two groups: expressions and statements. Expressions evaluate into a value, while statements do not.
+
+For example, this is an expression:
+
+```javascript
+1 + 1
+```
+
+While this is a statement:
+```c
+printf("hello, world\n");
+```
+
+As a general rule, imperative languages such as C, Java, C++, etc. have many statements, while functional languages such has Haskell, OCaml, or Lisp have mostly expressions.
 
 As an example, let's take an `if` syntactic form. In Java and C, an `if` is a statement:
 
@@ -74,4 +87,4 @@ if student.is_graduating() {
 }
 ```
 
-It's fitting that a language which inherits from both imperative and functional languages has syntactic constructs that can behave as both statements and expressions.
+It's fitting that Rust, a language which inherits from both imperative and functional languages, has syntactic constructs that can behave as both statements and expressions.
